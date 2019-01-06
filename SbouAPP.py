@@ -70,7 +70,7 @@ def touchepresse(event):
 	if key == "Down":
 		droite_pad.active = True
 		droite_pad.speed = 10
-
+#c'est pour éviter les guignols qui appuis tout le temps sur la meme touche pour spamm 
 def touche(event):
 	key = event.keysym
 
@@ -79,7 +79,7 @@ def touche(event):
 
 	if key == "Up" or key == "Down":
 		droite_pad.active = False
-
+#j'ai pas besoin de commenter tout est dans le nom de la fonction toutefois ici on fait bouger la balle DU DU DU DU 
 def mouvement_balle():
 	global vx, vy
 	global joueur1_score, joueur2_score
@@ -114,14 +114,14 @@ def mouvement_balle():
 
 	c.move(ball, vx, vy)
 
-
+# éxécution du code au lancement de l'appli 
 def main():
 	gauche_pad.mouvement()
 	droite_pad.mouvement()
 	mouvement_balle()	
 	root.after(30, main)
 	return 0
-
+#SECOND POTEAU non plus serieusement ici on met le point au joueur et on remet la balle au centre 
 def but():
 	score.config(text="{} - {}".format(joueur1_score, joueur2_score))
 	c.coords(ball, w//2-20, h//2-20, w//2+20, h//2+20)
