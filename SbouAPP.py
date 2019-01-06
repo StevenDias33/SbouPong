@@ -8,18 +8,18 @@ h = 400
 joueur1_score = 0
 joueur2_score = 0
 
-root = Tk()
-menubar = Menu(root)
-root.config(menu=menubar)
-root.resizable(False, False)
-root.geometry("{}x{}".format(w, 475))
-root.title("SBOU Pong")
+fenetre = Tk()
+menubar = Menu(fenetre)
+fenetre.config(menu=menubar)
+fenetre.resizable(False, False)
+fenetre.geometry("{}x{}".format(w, 475))
+fenetre.title("SBOU Pong")
 
-B1 = Button(root, text = "Quitter", command =root.destroy )
-Button(root, text = "Quitter", command =root.destroy ).pack(side=BOTTOM, padx=5, pady=5)
+B1 = Button(fenetre, text = "Quitter", command =fenetre.destroy )
+Button(fenetre, text = "Quitter", command =fenetre.destroy ).pack(side=BOTTOM, padx=5, pady=5)
 
-c = Canvas(root, width=w, height=475, bg="black")
-c.pack()
+canvas = Canvas(fenetre, width=w, height=475, bg="black")
+canvas.pack()
 
 #def menu():
 #	c.delete(ALL)
@@ -27,25 +27,25 @@ c.pack()
 
 
 #tableau de score
-joueur1 = Label(c, text="Player 1", font=("Arial", 20), fg="white", bg="black")
+joueur1 = Label(canvas, text="Player 1", font=("Arial", 20), fg="white", bg="black")
 joueur1.place(relx=0.1, rely=0.9)
 
-joueur2 = Label(c, text="Player 2", font=("Arial", 20), fg="white", bg="black")
+joueur2 = Label(canvas, text="Player 2", font=("Arial", 20), fg="white", bg="black")
 joueur2.place(relx=0.735, rely=0.9)
 
 #Score actuel 
-score = Label(c, text="{} - {}".format(joueur1_score, joueur2_score), font=("Arial", 20), fg="white", bg="#1050b7")
+score = Label(canvas, text="{} - {}".format(joueur1_score, joueur2_score), font=("Arial", 20), fg="white", bg="#1050b7")
 score.place(relx=0.46, rely=0.9)
 
 #Création de la balle 
-ball = c.create_oval(w//2-20, h//2-20, w//2+20, h//2+20, fill="orange", outline="#EA9111")
-ball_R = (c.coords(ball)[2]-c.coords(ball)[0]) / 2
+ball = canvas.create_oval(w//2-20, h//2-20, w//2+20, h//2+20, fill="orange", outline="#EA9111")
+ball_R = (canvas.coords(ball)[2]-canvas.coords(ball)[0]) / 2
 
 d = ball_R - (Pad.pad_width*(2*ball_R-Pad.pad_width))**0.5
 
 #Les raquettes
-gauche_pad = Pad(0, 0, c)
-droite_pad = Pad(w-Pad.pad_width, 0, c)
+gauche_pad = Pad(0, 0, canvas)
+droite_pad = Pad(w-Pad.pad_width, 0, canvas)
 
 
 # Vecteurs random de la balle 
@@ -84,14 +84,14 @@ def mouvement_balle():
 	global vx, vy
 	global joueur1_score, joueur2_score
 
-	ball_coords = c.coords(ball)
+	ball_coords = canvas.coords(ball)
 
 	if ball_coords[1] == 0 or ball_coords[3] == h:
 		vy = -vy
 			
 
-	gauche_pad_coords = c.coords(gauche_pad.pad)
-	droite_pad_coords = c.coords(droite_pad.pad)
+	gauche_pad_coords = canvas.coords(gauche_pad.pad)
+	droite_pad_coords = canvas.coords(droite_pad.pad)
 
 	touch_on_gauche = (gauche_pad_coords[0] <= ball_coords[0] <= gauche_pad_coords[2]) and ((gauche_pad_coords[1] <= ball_coords[3]-d <= gauche_pad_coords[3]) or (gauche_pad_coords[1] <= ball_coords[1]+d <= gauche_pad_coords[3]))
 	touch_on_droite = (droite_pad_coords[0] <= ball_coords[2] <= droite_pad_coords[2]) and ((droite_pad_coords[1] <= ball_coords[3]-d <= droite_pad_coords[3]) or (droite_pad_coords[1] <= ball_coords[1]+d <= droite_pad_coords[3]))
@@ -112,26 +112,26 @@ def mouvement_balle():
 		but()
 			
 
-	c.move(ball, vx, vy)
+	canvas.move(ball, vx, vy)
 
 # éxécution du code au lancement de l'appli 
 def main():
 	gauche_pad.mouvement()
 	droite_pad.mouvement()
 	mouvement_balle()	
-	root.after(30, main)
+	fenetre.after(30, main)
 	return 0
 #SECOND POTEAU non plus serieusement ici on met le point au joueur et on remet la balle au centre 
 def but():
 	score.config(text="{} - {}".format(joueur1_score, joueur2_score))
-	c.coords(ball, w//2-20, h//2-20, w//2+20, h//2+20)
+	canvas.coords(ball, w//2-20, h//2-20, w//2+20, h//2+20)
 		
 
-#start = Button(root, text="commencer", command=main).pack(side=BOTTOM, padx=5, pady=4)
+#start = Button(fenetre, text="commencer", command=main).pack(side=BOTTOM, padx=5, pady=4)
 
 
-c.bind("<KeyPress>",touchepresse)
-c.bind("<KeyRelease>",touche)
-c.focus_set()
+canvas.bind("<KeyPress>",touchepresse)
+canvas.bind("<KeyRelease>",touche)
+canvas.focus_set()
 main()
-root.mainloop()
+fenetre.mainloop()
