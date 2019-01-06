@@ -21,6 +21,10 @@ Button(root, text = "Quitter", command =root.destroy ).pack(side=BOTTOM, padx=5,
 c = Canvas(root, width=w, height=475, bg="black")
 c.pack()
 
+#def menu():
+#	c.delete(ALL)
+#	c.create_text(400, 200, fill= "white", font=("Arial", 40),text ="Accueil")
+
 
 #tableau de score
 joueur1 = Label(c, text="Player 1", font=("Arial", 20), fg="white", bg="black")
@@ -113,17 +117,20 @@ def mouvement_balle():
 def main():
 	left_pad.mouvement()
 	right_pad.mouvement()
-	mouvement_balle()
+	mouvement_balle()	
 	root.after(30, main)
+	return 0
 
 def but():
 	score.config(text="{} - {}".format(joueur1_score, joueur2_score))
 	c.coords(ball, w//2-20, h//2-20, w//2+20, h//2+20)
 		
 
+#start = Button(root, text="commencer", command=main).pack(side=BOTTOM, padx=5, pady=4)
+
+
 c.bind("<KeyPress>",keypress)
 c.bind("<KeyRelease>",keyrelease)
 c.focus_set()
-
 main()
 root.mainloop()
