@@ -51,6 +51,7 @@ droite_pad = Pad(w-Pad.pad_width, 0, c)
 # Vecteurs random de la balle 
 vx, vy = random.choice([-5, 5]), random.choice([6, -6])
 
+#ici c'est pour faire des choses quand on appui sur les touches c'est cool 
 def touchepresse(event):
 	key = event.keysym
 		
