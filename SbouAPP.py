@@ -44,40 +44,40 @@ ball_R = (c.coords(ball)[2]-c.coords(ball)[0]) / 2
 d = ball_R - (Pad.pad_width*(2*ball_R-Pad.pad_width))**0.5
 
 #Les raquettes
-left_pad = Pad(0, 0, c)
-right_pad = Pad(w-Pad.pad_width, 0, c)
+gauche_pad = Pad(0, 0, c)
+droite_pad = Pad(w-Pad.pad_width, 0, c)
 
 
 # Vecteurs random de la balle 
 vx, vy = random.choice([-5, 5]), random.choice([6, -6])
 
-def keypress(event):
+def touchepresse(event):
 	key = event.keysym
 		
 	if key.lower() == "w":
-		left_pad.active = True
-		left_pad.speed = -10
+		gauche_pad.active = True
+		gauche_pad.speed = -10
 
 	if key.lower() == "s":
-		left_pad.active = True
-		left_pad.speed = 10
+		gauche_pad.active = True
+		gauche_pad.speed = 10
 
 	if key == "Up":
-		right_pad.active = True
-		right_pad.speed = -10
+		droite_pad.active = True
+		droite_pad.speed = -10
 
 	if key == "Down":
-		right_pad.active = True
-		right_pad.speed = 10
+		droite_pad.active = True
+		droite_pad.speed = 10
 
-def keyrelease(event):
+def touche(event):
 	key = event.keysym
 
 	if key.lower() == "w" or key.lower() == "s":
-		left_pad.active = False
+		gauche_pad.active = False
 
 	if key == "Up" or key == "Down":
-		right_pad.active = False
+		droite_pad.active = False
 
 def mouvement_balle():
 	global vx, vy
@@ -89,16 +89,16 @@ def mouvement_balle():
 		vy = -vy
 			
 
-	left_pad_coords = c.coords(left_pad.pad)
-	right_pad_coords = c.coords(right_pad.pad)
+	gauche_pad_coords = c.coords(gauche_pad.pad)
+	droite_pad_coords = c.coords(droite_pad.pad)
 
-	touch_on_left = (left_pad_coords[0] <= ball_coords[0] <= left_pad_coords[2]) and ((left_pad_coords[1] <= ball_coords[3]-d <= left_pad_coords[3]) or (left_pad_coords[1] <= ball_coords[1]+d <= left_pad_coords[3]))
-	touch_on_right = (right_pad_coords[0] <= ball_coords[2] <= right_pad_coords[2]) and ((right_pad_coords[1] <= ball_coords[3]-d <= right_pad_coords[3]) or (right_pad_coords[1] <= ball_coords[1]+d <= right_pad_coords[3]))
+	touch_on_gauche = (gauche_pad_coords[0] <= ball_coords[0] <= gauche_pad_coords[2]) and ((gauche_pad_coords[1] <= ball_coords[3]-d <= gauche_pad_coords[3]) or (gauche_pad_coords[1] <= ball_coords[1]+d <= gauche_pad_coords[3]))
+	touch_on_droite = (droite_pad_coords[0] <= ball_coords[2] <= droite_pad_coords[2]) and ((droite_pad_coords[1] <= ball_coords[3]-d <= droite_pad_coords[3]) or (droite_pad_coords[1] <= ball_coords[1]+d <= droite_pad_coords[3]))
 
-	if touch_on_right or touch_on_left:
+	if touch_on_droite or touch_on_gauche:
 		vx = -vx
-		right_pad.speed = right_pad.speed + 3
-		left_pad.speed = left_pad.speed + 3
+		droite_pad.speed = droite_pad.speed + 3
+		gauche_pad.speed = gauche_pad.speed + 3
 
 			
 	if ball_coords[0] <= 0:
@@ -115,8 +115,8 @@ def mouvement_balle():
 
 
 def main():
-	left_pad.mouvement()
-	right_pad.mouvement()
+	gauche_pad.mouvement()
+	droite_pad.mouvement()
 	mouvement_balle()	
 	root.after(30, main)
 	return 0
@@ -129,8 +129,8 @@ def but():
 #start = Button(root, text="commencer", command=main).pack(side=BOTTOM, padx=5, pady=4)
 
 
-c.bind("<KeyPress>",keypress)
-c.bind("<KeyRelease>",keyrelease)
+c.bind("<KeyPress>",touchepresse)
+c.bind("<KeyRelease>",touche)
 c.focus_set()
 main()
 root.mainloop()
