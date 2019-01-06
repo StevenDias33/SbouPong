@@ -23,10 +23,10 @@ c.pack()
 
 
 #tableau de score
-joueur1 = Label(c, text="Player 1", font=("Arial", 20), fg="white", bg="#1050b7")
+joueur1 = Label(c, text="Player 1", font=("Arial", 20), fg="white", bg="black")
 joueur1.place(relx=0.1, rely=0.9)
 
-joueur2 = Label(c, text="Player 2", font=("Arial", 20), fg="white", bg="#1050b7")
+joueur2 = Label(c, text="Player 2", font=("Arial", 20), fg="white", bg="black")
 joueur2.place(relx=0.735, rely=0.9)
 
 #Score actuel 
@@ -34,7 +34,7 @@ score = Label(c, text="{} - {}".format(joueur1_score, joueur2_score), font=("Ari
 score.place(relx=0.46, rely=0.9)
 
 #Création de la balle 
-ball = c.create_oval(w//2-20, h//2-20, w//2+20, h//2+20, fill="#EA9111", outline="#EA9111")
+ball = c.create_oval(w//2-20, h//2-20, w//2+20, h//2+20, fill="orange", outline="#EA9111")
 ball_R = (c.coords(ball)[2]-c.coords(ball)[0]) / 2
 
 d = ball_R - (Pad.pad_width*(2*ball_R-Pad.pad_width))**0.5
