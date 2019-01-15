@@ -5,8 +5,8 @@ import random
 w = 700
 h = 400
 
-joueur1_score = 0
-joueur2_score = 0
+axel_score = 0
+paris_score = 0
 
 fenetre = Tk()
 menubar = Menu(fenetre)
@@ -27,14 +27,14 @@ canvas.pack()
 
 
 #tableau de score
-joueur1 = Label(canvas, text="Player 1", font=("Arial", 20), fg="white", bg="black")
-joueur1.place(relx=0.1, rely=0.9)
+axel = Label(canvas, text="Player 1", font=("Arial", 20), fg="white", bg="black")
+axel.place(relx=0.1, rely=0.9)
 
-joueur2 = Label(canvas, text="Player 2", font=("Arial", 20), fg="white", bg="black")
-joueur2.place(relx=0.735, rely=0.9)
+paris = Label(canvas, text="Player 2", font=("Arial", 20), fg="white", bg="black")
+paris.place(relx=0.735, rely=0.9)
 
 #Score actuel 
-score = Label(canvas, text="{} - {}".format(joueur1_score, joueur2_score), font=("Arial", 20), fg="white", bg="#1050b7")
+score = Label(canvas, text="{} - {}".format(axel_score, paris_score), font=("Arial", 20), fg="white", bg="#1050b7")
 score.place(relx=0.46, rely=0.9)
 
 #Création de la balle 
@@ -44,8 +44,8 @@ ball_R = (canvas.coords(ball)[2]-canvas.coords(ball)[0]) / 2
 d = ball_R - (Pad.pad_width*(2*ball_R-Pad.pad_width))**0.5
 
 #Les raquettes
-gauche_pad = Pad(0, 0, canvas)
-droite_pad = Pad(w-Pad.pad_width, 0, canvas)
+quentin_pad = Pad(0, 0, canvas)
+gans_pad = Pad(w-Pad.pad_width, 0, canvas)
 
 
 # Vecteurs random de la balle 
@@ -56,33 +56,33 @@ def touchepresse(event):
 	key = event.keysym
 		
 	if key.lower() == "w":
-		gauche_pad.active = True
-		gauche_pad.speed = -10
+		quentin_pad.active = True
+		quentin_pad.speed = -10
 
 	if key.lower() == "s":
-		gauche_pad.active = True
-		gauche_pad.speed = 10
+		quentin_pad.active = True
+		quentin_pad.speed = 10
 
 	if key == "Up":
-		droite_pad.active = True
-		droite_pad.speed = -10
+		gans_pad.active = True
+		gans_pad.speed = -10
 
 	if key == "Down":
-		droite_pad.active = True
-		droite_pad.speed = 10
+		gans_pad.active = True
+		gans_pad.speed = 10
 #c'est pour éviter les guignols qui appuis tout le temps sur la meme touche pour spamm 
 def touche(event):
 	key = event.keysym
 
 	if key.lower() == "w" or key.lower() == "s":
-		gauche_pad.active = False
+		quentin_pad.active = False
 
 	if key == "Up" or key == "Down":
-		droite_pad.active = False
+		gans_pad.active = False
 #j'ai pas besoin de commenter tout est dans le nom de la fonction toutefois ici on fait bouger la balle DU DU DU DU 
 def mouvement_balle():
 	global vx, vy
-	global joueur1_score, joueur2_score
+	global axel_score, paris_score
 
 	ball_coords = canvas.coords(ball)
 
@@ -90,25 +90,25 @@ def mouvement_balle():
 		vy = -vy
 			
 
-	gauche_pad_coords = canvas.coords(gauche_pad.pad)
-	droite_pad_coords = canvas.coords(droite_pad.pad)
+	quentin_pad_coords = canvas.coords(quentin_pad.pad)
+	gans_pad_coords = canvas.coords(gans_pad.pad)
 
-	touch_on_gauche = (gauche_pad_coords[0] <= ball_coords[0] <= gauche_pad_coords[2]) and ((gauche_pad_coords[1] <= ball_coords[3]-d <= gauche_pad_coords[3]) or (gauche_pad_coords[1] <= ball_coords[1]+d <= gauche_pad_coords[3]))
-	touch_on_droite = (droite_pad_coords[0] <= ball_coords[2] <= droite_pad_coords[2]) and ((droite_pad_coords[1] <= ball_coords[3]-d <= droite_pad_coords[3]) or (droite_pad_coords[1] <= ball_coords[1]+d <= droite_pad_coords[3]))
+	touch_on_quentin = (quentin_pad_coords[0] <= ball_coords[0] <= quentin_pad_coords[2]) and ((quentin_pad_coords[1] <= ball_coords[3]-d <= quentin_pad_coords[3]) or (quentin_pad_coords[1] <= ball_coords[1]+d <= quentin_pad_coords[3]))
+	touch_on_gans = (gans_pad_coords[0] <= ball_coords[2] <= gans_pad_coords[2]) and ((gans_pad_coords[1] <= ball_coords[3]-d <= gans_pad_coords[3]) or (gans_pad_coords[1] <= ball_coords[1]+d <= gans_pad_coords[3]))
 
-	if touch_on_droite or touch_on_gauche:
+	if touch_on_gans or touch_on_quentin:
 		vx = -vx
-		droite_pad.speed = droite_pad.speed + 3
-		gauche_pad.speed = gauche_pad.speed + 3
+		gans_pad.speed = gans_pad.speed + 3
+		quentin_pad.speed = quentin_pad.speed + 3
 
 			
 	if ball_coords[0] <= 0:
-		joueur2_score += 1
+		paris_score += 1
 		but()
 			
 
 	if ball_coords[2] >= w:
-		joueur1_score += 1
+		axel_score += 1
 		but()
 			
 
@@ -116,14 +116,14 @@ def mouvement_balle():
 
 # éxécution du code au lancement de l'appli 
 def main():
-	gauche_pad.mouvement()
-	droite_pad.mouvement()
+	quentin_pad.mouvement()
+	gans_pad.mouvement()
 	mouvement_balle()	
 	fenetre.after(30, main)
 	return 0
 #SECOND POTEAU non plus serieusement ici on met le point au joueur et on remet la balle au centre 
 def but():
-	score.config(text="{} - {}".format(joueur1_score, joueur2_score))
+	score.config(text="{} - {}".format(axel_score, paris_score))
 	canvas.coords(ball, w//2-20, h//2-20, w//2+20, h//2+20)
 		
 
