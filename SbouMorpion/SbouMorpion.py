@@ -7,11 +7,14 @@ can = Tk()
 def hello():
     print("salut")
 
-B1 = Button(can, text="Quitter", command=hello)
+
+for i in range(3):
+    for s in range(3):
+        Button(can, text="Quitter", command=hello).grid(row=i, column=s)
+    print(i)
 
 
 
-B1.pack()
 can.mainloop()
 
 
